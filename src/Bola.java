@@ -65,4 +65,6 @@ public class Bola {
 
     public double getX(){ return x;}
     public double getY(){ return y;}
+    public double getVx(){ return velocidadeX;}
+    public double getVy(){ return velocidadeY;}
 }
