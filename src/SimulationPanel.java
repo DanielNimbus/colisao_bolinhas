@@ -14,6 +14,9 @@ public class SimulationPanel extends JPanel{
 
     private int spawnX, spawnY;
 
+    private boolean arrastando = false;
+    private Bola bolaArrastando = null;
+    
     int altura, largura;
     Random rand = new Random();
 
@@ -41,11 +44,45 @@ public class SimulationPanel extends JPanel{
         spawnY = rand.nextInt(altura);
 
 
-
         System.out.println("X: " + spawnX + " | Y: " + spawnY);
 
         bola.add(new Bola(spawnX, spawnY, rand.nextInt(41)-20, rand.nextInt(41)-20 , rand.nextInt(50)+5, rand.nextInt(50), Color.GRAY));
         this.setBackground(Color.black);
+
+        // estudar um pouco mais sobre isso... eu posso fazer o new MouseAdapter igual o eventListener? testar em breve!
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e){
+                for(Bola b : bola){
+                    double dX = e.getX() - b.getX();
+                    double dY = e.getY() - b.getY();
+
+                    if(Math.sqrt((dX * dX) + (dY * dY)) <= b.getRaio()){
+                        arrastando = true;
+                        bolaArrastando = b;
+                        break;
+                    }
+                }
+            }
+
+            public void mouseReleased(MouseEvent e){
+                arrastando = false;
+                bolaArrastando = null;
+            }
+        });
+
+        addMouseMotionListener(new MouseMotionAdapter(){
+            @Override
+            public void mouseDragged(MouseEvent e){
+                if(arrastando && bolaArrastando != null){
+                    bolaArrastando.setX(e.getX());
+                    bolaArrastando.setY(e.getY());
+                    repaint();
+                }
+            }
+        });
+
         timer = new Timer(16, action);
         timer.start();
     }
@@ -62,9 +99,7 @@ public class SimulationPanel extends JPanel{
         }
         g.setColor(Color.white);
         g.drawString("Spawn: (" + spawnX + ", " + spawnY + ")", 10, 20);
-
-        
     }
 
-
+    
 }

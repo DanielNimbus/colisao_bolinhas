@@ -60,11 +60,11 @@ public class Bola {
         velocidadeX *= 0.995;
     }
 
-
-
-
     public double getX(){ return x;}
     public double getY(){ return y;}
+    public void setX(double xNovo){ x = xNovo;}
+    public void setY(double yNovo){ y = yNovo;}
     public double getVx(){ return velocidadeX;}
     public double getVy(){ return velocidadeY;}
+    public double getRaio(){ return raio;}
 }
